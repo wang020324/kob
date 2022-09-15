@@ -27,15 +27,15 @@ public class BotInfoController {
 
      */
     //返回一个字典+嵌套链表
-    /*
+
     public Map<String,String>getBotInfo(){
         Map<String,String>map=new HashMap<>();
 
         map.put("name","title");
         map.put("rating","1500");
         return map;
-    }*/
-    public List<Map<String,String>>getBotInfo(){
+    }
+    /*public List<Map<String,String>>getBotInfo(){
         List<Map<String,String>>list=new LinkedList<>();
         Map<String,String>bot1=new HashMap<>();
         bot1.put("name","tiger");
@@ -47,4 +47,6 @@ public class BotInfoController {
         list.add(bot2);
         return list;
     }
+
+     */
 }
