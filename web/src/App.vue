@@ -1,18 +1,22 @@
 <template>
-  <div>
+  <!---<div>
     <div>Bot昵称:{{ bot_name }}</div>
     <div>Bot战力:{{bot_rating}}</div>
-  </div>
+  </div>-->
+  <NavBar />
   <router-view/>
 </template>
 <script>
 
-import $ from 'jquery';
-import { ref } from 'vue';
+//import $ from 'jquery';
+//import { ref } from 'vue';
+import NavBar from './components/NavBar.vue';
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/js/bootstrap"
 
 
-export default ({
-  name:"App",
+export default {
+  /*name:"App",
   setup:() =>{
     let bot_name=ref("");
     let bot_rating=ref("");
@@ -32,13 +36,16 @@ export default ({
       bot_rating
     }
     
-  }
-})
+  }*/
+  components: {
+    NavBar,
+}
+}
 </script>
 
 <style>
  body{
-  background-image:url("@/assets/background.png");
-  background-size:cover;
+  background-image:url("./assets/images/background.png");
+  background-size: cover;
  }
 </style>
