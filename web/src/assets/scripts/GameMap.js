@@ -2,7 +2,7 @@
 
 import { AcGameObject } from "./AcGameObject";
 import { Wall } from "./Wall";
-
+import { Snake } from "./Snake";
 export class GameMap extends AcGameObject{
     constructor(ctx,parent){
         super();
@@ -13,12 +13,16 @@ export class GameMap extends AcGameObject{
 
         //行数和列数
         this.rows=13;
-        this.cols=13;
+        this.cols=14;
 
         this.inner_walls_count=60;//记录下内置障碍物的数量
         //开行数组用来存储所有的墙
         this.walls=[];
 
+        this.snakes=[
+             new Snake({id:0,color:"#4876EC",r:this.rows-2,c:1},this),
+             new Snake({id:1,color:"#F94848",r:1,c:this.cols-2},this),
+        ];
 
 
     }
@@ -69,11 +73,12 @@ export class GameMap extends AcGameObject{
             for(let j=0;j<1000;j++){
                 let r=parseInt(Math.random()*this.rows);//行的随机值
                 let c=parseInt(Math.random()*this.cols);//列的随机值 
-                if(g[r][c]||g[c][r])continue;//此位置如果已经有障碍物则跳过即可(由于是对称放的，且在这个枚举的时候，为了简化枚举只枚举一半，但判断一半另一半也要表示)
+                //if(g[r][c]||g[c][r])continue;//此位置如果已经有障碍物则跳过即可(由于是对称放的，且在这个枚举的时候，为了简化枚举只枚举一半，但判断一半另一半也要表示)
+                if(g[r][c]||g[this.rows-1-r][this.cols-1-c])continue;
                 if(r==this.rows-1&&c==1||r==1&&c==this.cols-2){
                          continue;
                 }//越过左上角和右下角，因为这是蛇的起始位置
-                g[r][c]=g[c][r]=true;
+                g[r][c]=g[this.rows-1-r][this.cols-1-c]=true;
                 break;//每一个障碍物放下去一次break掉，再去下一个障碍物开始找
 
             }
@@ -93,6 +98,26 @@ export class GameMap extends AcGameObject{
          }
          return true;
     }
+    
+    //辅助函数捕获输入信息
+    add_listening_events(){
+
+        this.ctx.canvas.focus();
+        // 取出两条蛇
+        const [snake0,snake1] =this.snakes;
+        //函数控制移动
+        this.ctx.canvas.addEventListener("keydown",e=>{
+            if(e.key==='w')snake0.set_direction(0);
+            else if(e.key==='d') snake0.set_direction(1);
+            else if(e.key==='s')snake0.set_direction(2);
+            else if(e.key==='a')snake0.set_direction(3);
+            else if(e.key==='ArrowUp')snake1.set_direction(0);
+            else if(e.key==='ArrowRight')snake1.set_direction(1);
+            else if(e.key==='ArrowDown')snake1.set_direction(2);
+            else if(e.key==='ArrowLeft')snake1.set_direction(3);
+        })
+
+    }
 
     start(){
 
@@ -100,6 +125,7 @@ export class GameMap extends AcGameObject{
         for(let i=0;i<1000;i++)
            if(this.create_walls())
                break;
+        this.add_listening_events();//执行时调用
     }
     update_size(){
         //每一帧都更新一下边长
@@ -108,10 +134,65 @@ export class GameMap extends AcGameObject{
         this.ctx.canvas.width=this.L*this.cols;//求的是canvas的长
         this.ctx.canvas.height=this.L*this.rows;//求得canvas的宽
     }
+    //用来判断两个蛇是不是准备好下一回合
+    check_ready(){
+        for(const snake of this.snakes){
+            //蛇的状态要么死了要么移动，就需要把当前位置走完。
+            if(snake.status!=="idle")return false;
+            //如果这条蛇没有接到下一步的指令的话，return false
+            if(snake.direction===-1) return false;// js中判断相等用三个等号
+        }
+        return true;
+    }
+
+    next_step(){
+        //让两条蛇进入下一回合
+        for(const snake of this.snakes){
+            snake.next_step();
+
+        }
+
+    }
+
+    //裁判:检测下目标格子是否合法,所谓合法:没有撞到某条蛇的身体和障碍物
+    check_valid(cell){
+        //枚举下所有的障碍物:
+        for(const wall of this.walls){
+           // 当蛇与身体的横纵坐标相等表示非法
+            if(wall.r===cell.r&&wall.c===cell.c)
+               return false;
+        }
+        //枚举两条蛇的身体，判断有无重合
+
+        for(const snake of this.snakes){
+            //蛇尾要单独特判会不会缩,来判断一条蛇会不会撞在一起
+            let k=snake.cells.length;//先取出蛇的长度
+            //如果要缩，最后一个格子就可以走
+            if(!snake.check_tail_increasing()){
+                //当辅助函数判断不会变长，说明要缩，就可以走
+                  k--;
+            }
+            for(let i=0;i<k;i++){
+                //枚举整条蛇，如果撞了的话返回false
+                if(snake.cells[i].r === cell.r&& snake.cells[i].c===cell.c)
+                   return false;
+                
+            }
+        }
+        return true;
+
+
+
+    }
 
     update(){
         //每一帧执行一次
         this.update_size();
+        //当两条蛇都已经准备好的时候，两条蛇都可以进入下一回合
+        if(this.check_ready()){
+            this.next_step();
+
+        }
         this.render();
     }
 

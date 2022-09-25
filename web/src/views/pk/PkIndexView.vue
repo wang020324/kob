@@ -1,7 +1,7 @@
 <template>
      <PlayGround />
    
-        对战
+        <!--对战-->
 </template>
 
 <script>

@@ -16,6 +16,7 @@ import "bootstrap/dist/js/bootstrap"
 
 
 export default {
+  //连接后端
   /*name:"App",
   setup:() =>{
     let bot_name=ref("");

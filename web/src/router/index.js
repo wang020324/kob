@@ -16,9 +16,9 @@ const routes = [
 
   },
      {
-      path:"/pk/",
+      path:"/pk/",//相对路径
       name:"pk_index",
-      component:PkIndexView,
+      component:PkIndexView,//映射的组件
      },
      {
       path:"/record/",
