@@ -1,5 +1,6 @@
 import $ from 'jquery'
 
+
 export default {
 
     state: {
@@ -8,6 +9,8 @@ export default {
         photo: "",
         token: "",
         is_login: false,
+        pulling_info: true,//表示当前是否在获取信息当中
+
     },
     getters: {
     },
@@ -25,13 +28,18 @@ export default {
         updateToken(state, token) {
             state.token = token;
         },
-        logout(state){
-            state.id="",
-            state.username="",
-            state.photo="",
-            state.token="",
-            state.is_login=false;
+        logout(state) {
+            state.id = "",
+                state.username = "",
+                state.photo = "",
+                state.token = "",
+                state.is_login = false;
+        },
+        //定义函数用来更新
+        updatePullingInfo(state, pulling_info) {
+            state.pulling_info = pulling_info;
         }
+
     },
     actions: {
         login(context, data) {
@@ -46,6 +54,7 @@ export default {
                     //当登录成功则返回保存全局信息
                     //当返回的error_message为success时，返回token
                     if (resp.error_message === "success") {
+                        localStorage.setItem("jwt_token", resp.token);//将token存在硬盘的一小块空间中
                         context.commit("updateToken", resp.token);
                         //成功执行回调函数:
                         data.success(resp);
@@ -90,9 +99,11 @@ export default {
 
             });
         },
-        logout(context){
+        logout(context) {
+            localStorage.removeItem("jwt_token");//将存储的登录的token释放掉
             context.commit("logout");
-        }
+        },
+
     },
     modules: {
     }

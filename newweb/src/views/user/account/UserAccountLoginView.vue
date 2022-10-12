@@ -1,5 +1,5 @@
 <template>
-    <ContentField>
+    <ContentField v-if="!$store.state.user.pulling_info">
           <div class="row justify-content-md-center">
             <div class="col-3">
               <form @submit.prevent="login">
@@ -36,6 +36,30 @@ export default{
     let username=ref('');
     let password=ref('');
     let error_message=ref('');
+    let show_content=false;//初始定为false，防止在刷新的时候出现空白，不雅观
+    const jwt_token=localStorage.getItem("jwt_token");//取出token
+    //如果token不存在，则返回一个空,存在则存下来
+    if(jwt_token){
+      store.commit("updateToken",jwt_token);//更新进去新的token去内存
+      //验证token是否合法
+      store.dispatch("getinfo",{
+        success(){
+          //成功的话(也就是合法的话)就跳转到首页
+          router.push({name:"home"});
+          store.commit("updatePullingInfo",false);
+        },
+        error(){
+          //show_content.value=true;
+          store.commit("updatePullingInfo",false);
+        }
+
+      })
+
+    }else
+    {
+      //show_content.value=true;
+      store.commit("updatePullingInfo",false);
+    }
 
     //定义登录触发函数
     const login = () =>{
@@ -66,6 +90,7 @@ export default{
       password,
       error_message,
       login,
+      show_content,
     }
    }
 }
