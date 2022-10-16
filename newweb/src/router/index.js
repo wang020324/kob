@@ -47,11 +47,11 @@ const routes = [
     }
   },
   {
-    path: "/user/",
+    path: "/user/bot/",
     name: "user_bot_index",
     component: UserBotIndexView,
     meta: {
-      requsetAuth: true,
+      requestAuth: true,
     }
   },
   {

@@ -2,13 +2,12 @@ package com.kob.backend.service.impl.user.account;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kob.backend.pojo.User;
-import com.kob.backend.service.mapper.UserMapper;
+import com.kob.backend.mapper.UserMapper;
 import com.kob.backend.service.user.account.RegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.management.Query;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

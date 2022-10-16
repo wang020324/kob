@@ -3,6 +3,7 @@ package com.kob.backend.service.impl.user.account;
 import com.kob.backend.pojo.User;
 import com.kob.backend.service.impl.utils.UserDetailsImpl;
 import com.kob.backend.service.user.account.LoginService;
+import com.kob.backend.tool.Tool;
 import com.kob.backend.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +24,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Map<String, String> getToken(String username, String password) {
         //封装用户名与密码
-        UsernamePasswordAuthenticationToken authenticationToken =
+/*        UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username, password);//将用户名与密码封装成一个类，类里面不会存明文而是加密之后的用户名与密码
 
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);// 当登录失败自动报异常
@@ -31,9 +32,10 @@ public class LoginServiceImpl implements LoginService {
         //取出用户
         UserDetailsImpl loginUser =(UserDetailsImpl) authenticate.getPrincipal();
         User user=loginUser.getUser();
-
+*/
+        Tool tool=new Tool();
         //将UserId 封装成jwt_token
-        String jwt= JwtUtil.createJWT(user.getId().toString());
+        String jwt= JwtUtil.createJWT(tool.user.getId().toString());
 
         //返回结果
         Map<String,String>map=new HashMap<>();

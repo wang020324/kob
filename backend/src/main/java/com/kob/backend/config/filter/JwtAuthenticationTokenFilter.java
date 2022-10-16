@@ -3,7 +3,7 @@ package com.kob.backend.config.filter;
 
 import com.kob.backend.pojo.User;
 import com.kob.backend.service.impl.utils.UserDetailsImpl;
-import com.kob.backend.service.mapper.UserMapper;
+import com.kob.backend.mapper.UserMapper;
 import com.kob.backend.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.jetbrains.annotations.NotNull;
