@@ -46,6 +46,7 @@ public class UpdateServiceImpl implements UpdateService {
             map.put("error_message","标题不能为空");
             return map;
         }
+
         if(title.length()>100){
             map.put("error_message","标题的长度不能大于100");
             return map;
