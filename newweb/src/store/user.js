@@ -24,7 +24,7 @@ export default {
             state.token = user.token;
             state.is_login = user.is_login;
         },
-        //辅助函数用来更新token
+        //辅助函数用来取出token
         updateToken(state, token) {
             state.token = token;
         },
@@ -35,7 +35,8 @@ export default {
                 state.token = "",
                 state.is_login = false;
         },
-        //定义函数用来更新
+        //定义函数用来更新token
+        
         updatePullingInfo(state, pulling_info) {
             state.pulling_info = pulling_info;
         }

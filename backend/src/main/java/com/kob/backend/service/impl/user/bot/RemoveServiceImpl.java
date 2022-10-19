@@ -5,6 +5,8 @@ import com.kob.backend.pojo.Bot;
 import com.kob.backend.pojo.User;
 import com.kob.backend.service.impl.utils.UserDetailsImpl;
 import com.kob.backend.service.user.bot.RemoveService;
+import com.kob.backend.tool.Tool;
+import net.sf.jsqlparser.util.validation.metadata.NamedObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,11 +24,12 @@ public class RemoveServiceImpl implements RemoveService {
     @Override
     public Map<String, String> remove(Map<String, String> data) {
         //取出用户
-        UsernamePasswordAuthenticationToken authenticationToken=
+    /*    UsernamePasswordAuthenticationToken authenticationToken=
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl loginUser=(UserDetailsImpl) authenticationToken.getPrincipal();
         User user=loginUser.getUser();
-
+*/
+        Tool tool=new Tool();
         //取出bot的id用作判断
         int bot_id=Integer.parseInt(data.get("bot_id"));
         Bot bot=botMapper.selectById(bot_id);//从数据库中查找bot
@@ -38,7 +41,8 @@ public class RemoveServiceImpl implements RemoveService {
             return map;
         }
         //用户不是作者不能删除
-        if(!bot.getId().equals(user.getId())){
+
+        if(!bot.getUserId().equals(tool.user.getId())){
             map.put("error_message","没有权限删除该Bot");
             return map;
         }
