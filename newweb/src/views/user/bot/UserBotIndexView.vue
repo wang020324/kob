@@ -128,7 +128,7 @@
 //import { useStore } from 'vuex';
 
 import $ from 'jquery';
-//import { useStore } from 'vuex';
+import { useStore } from 'vuex';
 import { ref ,reactive} from 'vue';
 import { Modal } from 'bootstrap/dist/js/bootstrap';
 import { VAceEditor } from 'vue3-ace-editor';
@@ -141,11 +141,12 @@ export default{
   },
   
     setup(){
+      const store=useStore();
       ace.config.set(
     "basePath", 
     "https://cdn.jsdelivr.net/npm/ace-builds@" + require('ace-builds').version + "/src-noconflict/")
   
-      const jwt_token=localStorage.getItem("jwt_token");
+      //const jwt_token=localStorage.getItem("jwt_token");
       let bots=ref([]);
 
       const botadd=reactive({
@@ -162,7 +163,7 @@ export default{
           type:"GET",
           
           headers:{
-            Authorization:"Bearer "+jwt_token,
+            Authorization:"Bearer "+store.state.user.token,
           },
           success(resp){
             bots.value=resp;
@@ -184,7 +185,7 @@ export default{
                   content:botadd.content,
                 },
                 headers:{
-                  Authorization:"Bearer "+jwt_token,
+                  Authorization:"Bearer "+store.state.user.token,
                 },
                 success(resp){
                   if(resp.error_message==="success"){
@@ -211,7 +212,7 @@ export default{
               bot_id:bot.id,
             },
             headers:{
-              Authorization:"Bearer "+jwt_token,
+              Authorization:"Bearer "+store.state.user.token,
             },
             success(resp){
               console.log(resp);
@@ -241,7 +242,7 @@ export default{
             content:bot.content,
           },
           headers:{
-            Authorization:"Bearer "+jwt_token,
+            Authorization:"Bearer "+store.state.user.token,
           },
           success(resp){
             if(resp.error_message==="success"){

@@ -21,7 +21,7 @@ export default {
             state.id = user.id;
             state.username = user.username;
             state.photo = user.photo;
-            state.token = user.token;
+
             state.is_login = user.is_login;
         },
         //辅助函数用来取出token
