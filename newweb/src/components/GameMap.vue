@@ -19,7 +19,7 @@ export default{
         let canvas=ref(null);
         onMounted(()=>{
             // 组件挂载完之后需要创建GameMap对象    
-            new GameMap(canvas.value.getContext('2d'),parent.value,store)
+            store.commit("updateGameObject",new GameMap(canvas.value.getContext('2d'),parent.value,store));
 
         });
         return {

@@ -92,10 +92,10 @@ export class Snake extends AcGameObject {
             this.cells[i] = JSON.parse(JSON.stringify(this.cells[i - 1]));
         }
         ///如果说下一步的状态为会被撞到蛇尾或者说障碍物，应该判断直接死亡
-        if (!this.gamemap.check_valid(this.next_cell)) {
+        /*if (!this.gamemap.check_valid(this.next_cell)) {
             this.status = "die";
 
-        }
+        }*/
 
 
     }

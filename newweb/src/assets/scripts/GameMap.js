@@ -107,17 +107,33 @@ export class GameMap extends AcGameObject {
 
         this.ctx.canvas.focus();
         // 取出两条蛇
-        const [snake0, snake1] = this.snakes;
+        // const [snake0, snake1] = this.snakes;
         //函数控制移动
         this.ctx.canvas.addEventListener("keydown", e => {
+            let d = -1;//以表示方向，其中d=0为上，d=1为右 2为下 3为左
+            /*
             if (e.key === 'w') snake0.set_direction(0);
             else if (e.key === 'd') snake0.set_direction(1);
             else if (e.key === 's') snake0.set_direction(2);
             else if (e.key === 'a') snake0.set_direction(3);
+            /*
             else if (e.key === 'ArrowUp') snake1.set_direction(0);
             else if (e.key === 'ArrowRight') snake1.set_direction(1);
             else if (e.key === 'ArrowDown') snake1.set_direction(2);
             else if (e.key === 'ArrowLeft') snake1.set_direction(3);
+        */
+            if (e.key === 'w') d = 0;
+            else if (e.key === 'd') d = 1;
+            else if (e.key === 's') d = 2;
+            else if (e.key === 'a') d = 3;
+            //如果进行了一个合法的移动操作
+            if (d >= 0) {
+                //则想后端传递一个请求
+                this.store.state.pk.socket.send(JSON.stringify({
+                    event: "move",
+                    direction: d ,
+                }));
+            }
         })
 
     }
