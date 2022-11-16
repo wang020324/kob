@@ -3,10 +3,14 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.kob</groupId>
-    <artifactId>backendcloud</artifactId>
+    <artifactId>banckendcloud</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>backendcloud</name>
-    <description>backendcloud</description>
+    <modules>
+        <module>NewBotRunningSystem</module>
+    </modules>
+
+    <name>banckendcloud</name>
+    <description>banckendcloud</description>
     <packaging>pom</packaging>
 
     <properties>
@@ -15,7 +19,6 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
     </properties>
-
 
 
     <dependencyManagement>
@@ -27,17 +30,8 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-dependencies</artifactId>
-            <version>2021.0.3</version>
-            <type>pom</type>
-            <scope>import</scope>
-        </dependency>
 
         </dependencies>
-
     </dependencyManagement>
 
     <build>
@@ -57,7 +51,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.3.7.RELEASE</version>
                 <configuration>
-                    <mainClass>com.kob.backendcloud.BackendcloudApplication</mainClass>
+                    <mainClass>com.kob.banckendcloud.BanckendcloudApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
