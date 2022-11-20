@@ -41,7 +41,7 @@ public class WebSocketServer {
     private Session session=null;
 
     //定义一个独一份的变量
-    private static UserMapper userMapper;
+    public static UserMapper userMapper;
 
     //定义类，存储Game
     public Game game= null;

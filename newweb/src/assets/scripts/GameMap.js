@@ -99,42 +99,78 @@ export class GameMap extends AcGameObject {
                 }
             }
         }
-        return true;
+        //return true;
     }
 
     //辅助函数捕获输入信息
     add_listening_events() {
+        console.log(this.store.state.record);
 
-        this.ctx.canvas.focus();
-        // 取出两条蛇
-        // const [snake0, snake1] = this.snakes;
-        //函数控制移动
-        this.ctx.canvas.addEventListener("keydown", e => {
-            let d = -1;//以表示方向，其中d=0为上，d=1为右 2为下 3为左
-            /*
-            if (e.key === 'w') snake0.set_direction(0);
-            else if (e.key === 'd') snake0.set_direction(1);
-            else if (e.key === 's') snake0.set_direction(2);
-            else if (e.key === 'a') snake0.set_direction(3);
-            /*
-            else if (e.key === 'ArrowUp') snake1.set_direction(0);
-            else if (e.key === 'ArrowRight') snake1.set_direction(1);
-            else if (e.key === 'ArrowDown') snake1.set_direction(2);
-            else if (e.key === 'ArrowLeft') snake1.set_direction(3);
-        */
-            if (e.key === 'w') d = 0;
-            else if (e.key === 'd') d = 1;
-            else if (e.key === 's') d = 2;
-            else if (e.key === 'a') d = 3;
-            //如果进行了一个合法的移动操作
-            if (d >= 0) {
-                //则想后端传递一个请求
-                this.store.state.pk.socket.send(JSON.stringify({
-                    event: "move",
-                    direction: d ,
-                }));
-            }
-        })
+        //判断是要对战还是要播放录像，如果是对战的话，则将对战窗口聚焦并且接收输入
+        if (this.store.state.record.is_record) {
+            let k = 0;//第几步
+
+
+            //取出移动操作steps
+            const a_steps = this.store.state.record.a_steps;
+            const b_steps = this.store.state.record.b_steps;
+            const loser = this.store.state.record.record_loser;
+            //取出两条蛇的信息c
+            const [snake0, snake1] = this.snakes;
+            //设定多久的时间执行这个函数
+            const interval_id = setInterval(() => {
+                //每300毫秒先判断蛇有无走完
+                if (k >= a_steps.length - 1) {
+                    //如果是已经结束的话，那么把死亡的蛇标记，如果没有死亡两条蛇动
+                    if (loser === "all" || loser === "A") {
+                        snake0.status = "die";
+                    }
+                    if (loser === "all" || loser === "B") {
+                        snake1.status = "die";
+                    }
+                    //store.commit("updateLoser",data.loser);
+                    clearInterval(interval_id);
+                } else {
+                    snake0.set_direction(parseInt(a_steps[k]));
+                    snake1.set_direction(parseInt(b_steps[k]));
+                }
+                k++;
+            }, 300)
+        } else {
+            this.ctx.canvas.focus();
+            // 取出两条蛇
+            // const [snake0, snake1] = this.snakes;
+            //函数控制移动
+            this.ctx.canvas.addEventListener("keydown", e => {
+                let d = -1;//以表示方向，其中d=0为上，d=1为右 2为下 3为左
+                /*
+                if (e.key === 'w') snake0.set_direction(0);
+                else if (e.key === 'd') snake0.set_direction(1);
+                else if (e.key === 's') snake0.set_direction(2);
+                else if (e.key === 'a') snake0.set_direction(3);
+                /*
+                else if (e.key === 'ArrowUp') snake1.set_direction(0);
+                else if (e.key === 'ArrowRight') snake1.set_direction(1);
+                else if (e.key === 'ArrowDown') snake1.set_direction(2);
+                else if (e.key === 'ArrowLeft') snake1.set_direction(3);
+            */
+                if (e.key === 'w') d = 0;
+                else if (e.key === 'd') d = 1;
+                else if (e.key === 's') d = 2;
+                else if (e.key === 'a') d = 3;
+                //如果进行了一个合法的移动操作
+                if (d >= 0) {
+                    //则想后端传递一个请求
+                    this.store.state.pk.socket.send(JSON.stringify({
+                        event: "move",
+                        direction: d,
+                    }));
+                }
+            })
+
+        }
+
+
 
     }
 

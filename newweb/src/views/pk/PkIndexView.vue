@@ -30,6 +30,7 @@ export default{
     const store=useStore();
     const socketUrl=`ws://127.0.0.1:3000/websocket/${store.state.user.token}/`;
     store.commit("updateLoser","none");//重新更新胜负状态 
+    store.commit("updateIsRecord",false);//更新记录页面的状态
     let socket =null;
 
     onMounted(()=>{

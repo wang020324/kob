@@ -89,7 +89,7 @@ public class Bot implements com.kob.newbotrunningsystem.utils.BotInterface {
             int x=aCells.get(aCells.size()-1).x+dx[i];
             int y=aCells.get(aCells.size()-1).y+dy[i];
             if(x>=0&&x<13&&y>=0&&y<14&&g[x][y]==0){
-                return 1;
+                return i;
             }
 
        }

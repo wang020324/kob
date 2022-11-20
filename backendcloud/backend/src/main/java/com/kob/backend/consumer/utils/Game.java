@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.kob.backend.consumer.WebSocketServer;
 import com.kob.backend.pojo.Bot;
 import com.kob.backend.pojo.Record;
+import com.kob.backend.pojo.User;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -315,8 +316,32 @@ public class Game extends Thread{
         }
         return res.toString();
     }
+    //定义辅助函数用来更新天梯积分
+    private void updateUserRating(Player player,Integer rating){
+        //首先取出两名玩家
+        User user =WebSocketServer.userMapper.selectById(player.getId());
+        user.setRating(rating);
+        //更新rating
+        WebSocketServer.userMapper.updateById(user);
+
+    }
     //创建对战输赢信息的数据库
     private void sendToDatabase(){
+        //首先先更新两名玩家的天梯积分
+        Integer ratingA =WebSocketServer.userMapper.selectById(playerA.getId()).getRating();
+        Integer ratingB =WebSocketServer.userMapper.selectById(playerB.getId()).getRating();
+        //判断谁赢谁输，以负责加分
+        if("A".equals(loser)){
+            ratingA -=3;
+            ratingB+=3;
+        }
+        else if("B".equals(loser)){
+            ratingA+=3;
+            ratingB-=3;
+        }
+        //更新天梯积分
+        updateUserRating(playerA,ratingA);
+        updateUserRating(playerB,ratingB);
         Record record = new Record(
                 null,
                 playerA.getId(),
