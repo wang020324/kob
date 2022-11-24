@@ -327,7 +327,7 @@ public class Game extends Thread{
     }
     //创建对战输赢信息的数据库
     private void sendToDatabase(){
-        //首先先更新两名玩家的天梯积分
+        //首先先取出两名玩家的天梯积分
         Integer ratingA =WebSocketServer.userMapper.selectById(playerA.getId()).getRating();
         Integer ratingB =WebSocketServer.userMapper.selectById(playerB.getId()).getRating();
         //判断谁赢谁输，以负责加分

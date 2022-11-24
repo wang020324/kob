@@ -100,7 +100,7 @@ export default{
    const click_page =page =>{
       if(page === -2) page =current_page-1;
       else if(page === -1) page =current_page+1;
-      let max_pages=parseInt(Math.ceil(total_records));
+      let max_pages=parseInt(Math.ceil(total_records/20));
 
       //如果范围合法，定义一个新的分页
         if(page>=1&&page<=max_pages){
@@ -109,7 +109,7 @@ export default{
    }
 
    const update_pages = () =>{
-      let max_pages=parseInt(Math.ceil(total_records));
+      let max_pages=parseInt(Math.ceil(total_records/20));
       let new_pages =[];
       console.log(max_pages);
 
