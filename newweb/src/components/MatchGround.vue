@@ -69,7 +69,7 @@ export default{
 
     const refresh_bots=()=>{
         $.ajax({
-          url:"http://127.0.0.1:3000/user/bot/getlist/",
+          url:"https://app2753.acapp.acwing.com.cn/api/user/bot/getlist/",
           type:"GET",
           
           headers:{

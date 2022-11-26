@@ -6,6 +6,10 @@
     <!--匹配-->
     <ResultBoard v-if="$store.state.pk.loser !='none'"/>
     <!--结果展示-->
+
+    <div class="user-color" v-if="$store.state.pk.status ==='playing' &&parseInt($store.state.user.id) === parseInt($store.state.pk.a_id)">您的初始位置：左下角</div>
+    <div class="user-color" v-if="$store.state.pk.status==='playing'&& parseInt($store.state.user.id) ===parseInt($store.state.pk.b_id)" >您的初始位置:右上角</div>
+    <!--标记bot的位置-->
 </template>
 
 <script>
@@ -28,7 +32,7 @@ export default{
   setup(){
 
     const store=useStore();
-    const socketUrl=`ws://127.0.0.1:3000/websocket/${store.state.user.token}/`;
+    const socketUrl=`wss://app2753.acapp.acwing.com.cn/websocket/${store.state.user.token}/`;
     store.commit("updateLoser","none");//重新更新胜负状态 
     store.commit("updateIsRecord",false);//更新记录页面的状态
     let socket =null;
@@ -94,5 +98,10 @@ export default{
 </script>
 
 <style scoped>
-
+div.user-color{
+  text-align:center;
+  color:white;
+  font-size:30px;
+  font-weight:600;
+}
 </style>

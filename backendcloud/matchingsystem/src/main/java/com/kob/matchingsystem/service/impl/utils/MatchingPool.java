@@ -93,7 +93,7 @@ public class MatchingPool extends Thread{
 
     //辅助函数:用来尝试匹配
     private void matchPlayers(){
-        System.out.println("match players: "+players.toString());
+       // System.out.println("match players: "+players.toString());
         //定义boolean数组，以表示当前还剩下那些人
         boolean[] used =new boolean[players.size()];
 

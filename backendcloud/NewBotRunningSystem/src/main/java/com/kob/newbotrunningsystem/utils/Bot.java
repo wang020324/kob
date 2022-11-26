@@ -1,9 +1,12 @@
 package com.kob.newbotrunningsystem.utils;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
-public class Bot implements com.kob.newbotrunningsystem.utils.BotInterface {
+public class Bot implements java.util.function.Supplier<Integer> {
     //更高级的AI
     //创建Cell以存储每条蛇的所有的位置
     static class Cell {
@@ -54,7 +57,7 @@ public class Bot implements com.kob.newbotrunningsystem.utils.BotInterface {
         return res;
     }
 
-    @Override
+
     public Integer nextMove(String input) {
         //解码字符串
         String[] strs = input.split("#");
@@ -95,7 +98,18 @@ public class Bot implements com.kob.newbotrunningsystem.utils.BotInterface {
        }
         return 0;
    }
-    /*@Override
+
+    @Override
+    public Integer get() {
+        File file  = new File("input.txt");//从文件里读入相关信息
+        try {
+            Scanner sc =new Scanner(file);
+            return nextMove(sc.next());
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+   /*@Override
     public Integer nextMove(String input) {
         return 0;//0表示向上走
     }*/

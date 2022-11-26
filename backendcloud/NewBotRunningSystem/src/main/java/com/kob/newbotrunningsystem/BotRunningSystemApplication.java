@@ -1,6 +1,6 @@
 package com.kob.newbotrunningsystem;
 
-import com.kob.newbotrunningsystem.service.BotRunningService;
+
 import com.kob.newbotrunningsystem.service.impl.BotRunningServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

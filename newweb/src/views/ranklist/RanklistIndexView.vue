@@ -94,7 +94,7 @@ export default{
    const pull_page=page=>{
         current_page=page;//打开的页面为当前页面
         $.ajax({
-             url:"http://127.0.0.1:3000/ranklist/getlist/",
+             url:"https://app2753.acapp.acwing.com.cn/api/ranklist/getlist/",
              type:"GET",
              data:{
                 page,

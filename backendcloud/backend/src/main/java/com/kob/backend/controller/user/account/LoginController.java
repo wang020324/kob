@@ -17,7 +17,7 @@ public class LoginController {
     private LoginService loginService;
 
     //登录
-    @PostMapping("/user/account/token/")
+    @PostMapping("/api/user/account/token/")
 
     //取出post的参数放到map里面
     public Map<String,String> getToken(@RequestParam Map<String,String>map){

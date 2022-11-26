@@ -9,7 +9,12 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.UUID;
+import java.util.function.Supplier;
+
 @Component
 
 public class Consumer extends Thread {
@@ -45,7 +50,7 @@ public class Consumer extends Thread {
     //定义一个辅助函数以实现代码Bot添加随机字符串的逻辑
     private String addUId(String code,String uid){
         //首先先从代码里找出字符串
-        int k =code.indexOf(" implements com.kob.newbotrunningsystem.utils.BotInterface");
+        int k =code.indexOf(" implements java.util.function.Supplier<Integer>");
         //然后把第k位前面的代码加上+uid返回然后再返回后面的
         return code.substring(0,k)+ uid +code.substring(k);
     }
@@ -55,12 +60,26 @@ public class Consumer extends Thread {
         UUID uuid = UUID.randomUUID();//添加一个随机的字符串，以保证多次编译
         String uid=uuid.toString().substring(0,8);//返回前8位的字符串0-8
 
-        BotInterface botInterface = Reflect.compile(
-                "com.kob.newbotrunningsystem.utils.Bot" + uid,
+       Supplier<Integer>  botInterface = Reflect.compile(
+                "com.kob.newbotrunningsystem.utils.Bot" + uid,//名字
                 addUId(bot.getBotCode(),uid)
         ).create().get();
 
-        Integer direction =botInterface.nextMove(bot.getInput());
+        //定义一个file,把输入放进文件里
+        File file = new File("input.txt");
+
+        //将bot.getInput写进文件里
+        try(PrintWriter fout=new PrintWriter(file)) {
+            //将内容输出过去
+            fout.println(bot.getInput());
+            //输出完之后记得清空缓冲区
+            fout.flush();//不清缓存区的话文件可能得不到信息
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        Integer direction =botInterface.get();
         System.out.println("move-direction:"+bot.getUserId()+" "+direction);
         //返回信息给Service
         MultiValueMap<String,String>data = new LinkedMultiValueMap<>();

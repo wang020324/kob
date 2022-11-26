@@ -16,7 +16,7 @@ public class InfoController {
     private InfoService infoService;
 
     //获取一个信息用Getmapping
-    @GetMapping("/user/account/info/")
+    @GetMapping("/api/user/account/info/")
     //返回结果为Map,所有的api都是如此
     public Map<String,String> getInfo(){
         return infoService.getInfo();

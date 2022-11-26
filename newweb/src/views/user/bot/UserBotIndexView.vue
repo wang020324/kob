@@ -159,7 +159,7 @@ export default{
       //获取列表函数
       const refresh_bots=()=>{
         $.ajax({
-          url:"http://127.0.0.1:3000/user/bot/getlist/",
+          url:"https://app2753.acapp.acwing.com.cn/api/user/bot/getlist/",
           type:"GET",
           
           headers:{
@@ -177,7 +177,7 @@ export default{
 
         const add_bot=()=>{
               $.ajax({
-                url:"http://127.0.0.1:3000/user/bot/add/",
+                url:"https://app2753.acapp.acwing.com.cn/api/user/bot/add/",
                 type:"POST",
                 data:{
                   title:botadd.title,
@@ -206,7 +206,7 @@ export default{
         //实现删除按钮'
         const remove_bot=(bot)=>{
           $.ajax({
-            url:"http://127.0.0.1:3000/user/bot/remove/",
+            url:"https://app2753.acapp.acwing.com.cn/api/user/bot/remove/",
             type:"POST",
             data:{
               bot_id:bot.id,
@@ -233,7 +233,7 @@ export default{
       const update_bot=(bot)=>{
         bot.error_message="";//初始清空
         $.ajax({
-          url:"http://127.0.0.1:3000/user/bot/update/",
+          url:"https://app2753.acapp.acwing.com.cn/api/user/bot/update/",
           type:"POST",
           data:{
             bot_id:bot.id,
