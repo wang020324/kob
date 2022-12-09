@@ -1,6 +1,8 @@
 <template>
     <ContentField>
-      <table class="table table-striped table-hover">
+      <div class="game-table">
+         <div>
+            <table >
                     <thead>
                       <tr style="text-align:center">
                         <th >玩家</th>
@@ -10,7 +12,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="user in users" :key="user.id">
-                        <td>
+                        <td class="game-table-username">
                            <img :src="user.photo" alt="" class="record-user-photo">
                            &nbsp;
                            <span class="record-user-username">{{ user.username }}</span>
@@ -23,19 +25,22 @@
                     </tbody>
                   </table>
                   <nav aria-label="Page navigation example">
-                    <ul class="pagination" style="float:right;">
-                      <li class="page-item">
-                        <a class="page-link" href="#" @click="click_page(-2)">&laquo;</a>
+                    <ul  style="padding:0;">
+                      <li class="game-page-item">
+                        <a class="game-page-link" href="#" @click="click_page(-2)">&laquo;</a>
                      </li>
-                     <li :class="'page-item ' + page.is_active" v-for="page in pages" :key="page.number" @click="click_page(page.number)">
-                        <a class="page-link" href="#">{{ page.number }}</a>
+                     <li :class="'game-page-item ' + page.is_active" v-for="page in pages" :key="page.number" @click="click_page(page.number)">
+                        <a class="game-page-link" href="#">{{ page.number }}</a>
                      </li>
                   
-                      <li class="page-item">
-                        <a class="page-link" href="#" @click="click_page(-1)">&raquo;</a>
+                      <li class="game-page-item">
+                        <a class="game-page-link" href="#" @click="click_page(-1)">&raquo;</a>
                      </li>
                    </ul>
-</nav>
+             </nav>
+         </div>
+      </div>
+     
     </ContentField>
 </template>
 
@@ -103,14 +108,14 @@ export default{
                 Authorization:"Bearer "+store.state.user.token,
              },
              success(resp){
-                console.log(resp);
+               // console.log(resp);
                 users.value=resp.users;
                 total_users=resp.users_count;
                 //返回完信息之后都需要更新页面以更新页码
                 update_pages();
              },
-             error(resp){
-                console.log(resp);
+             error(){
+                //console.log(resp);
              }
         })
     }
@@ -139,6 +144,60 @@ export default{
 img.record-user-photo{
    width:5vh;
    border-radius: 50%;
+}
+div.game-table{
+   display: flex;
+   justify-content: center;
+   align-items:center;
+   width:100%;
+   height:100%;
+}
+.game-table-username{
+   text-align:left;
+   overflow:hidden;
+   text-overflow:ellipsis;
+   white-space: nowrap;
+   max-width:15vw;
+}
+div.game-table table{
+   background-color:rgba(255,255,255,0.5);
+   border-radius:5px;
+}
+td{
+   width:15vw;
+}
+th{
+   text-align: center ;
+}
+.game-page-item{
+    display:inline-block;
+    padding:8px 12px;
+   background-color:white;
+   border:1px solid #dee2e6;
+   user-select:none;
+}
+.game-page-item:hover{
+   background-color:#E9ECEF;
+   cursor:pointer;
+
+}
+.game-page-item.active{
+   background-color:#0d6efd;
+}
+
+.game-page-item.active >a{
+    color:white;
+}
+
+.game-page-link{
+   color:#0d6efd;
+   text-decoration: none;
+   
+}
+nav{
+   display:flex;
+   justify-content: center;
+   align-items:center;
 }
 
 </style>

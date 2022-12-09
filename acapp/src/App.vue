@@ -1,6 +1,7 @@
 <template>
 
-    <div class="game-body">
+
+  <div class="game-body">
     <MenuView  v-if="$store.state.router.router_name=== 'menu'" />
     <PkIndexViewVue v-else-if="$store.state.router.router_name==='pk'"/>
     <RecordContentViewVue v-else-if="$store.state.router.router_name ==='record_content'"/>
@@ -8,11 +9,18 @@
     <RanklistIndexViewVue v-else-if="$store.state.router.router_name ==='ranklist'"/>
     <UserBotIndexViewVue  v-else-if="$store.state.router.router_name ==='user_bot'"/>
 
+    </div>
 
 
 
+ 
 
-   </div>
+
+  
+ 
+  
+  
+    
 
   
 

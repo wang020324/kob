@@ -48,7 +48,7 @@ export default{
       socket = new WebSocket(socketUrl);
 
       socket.onopen =()=>{
-        console.log("connected!");
+        //console.log("connected!");
         store.commit("updateSocket",socket);
       }
       socket.onmessage = msg =>{
@@ -67,7 +67,7 @@ export default{
           store.commit("updateGame",data.game);
          
         }else if(data.event==="move"){
-               console.log(data);
+               //console.log(data);
                 //获取出来GameObject
                 const game=store.state.pk.gameObject;
                 //解构GameMap的snakes属性
@@ -76,7 +76,7 @@ export default{
                 snake0.set_direction(data.a_direction);
                 snake1.set_direction(data.b_direction);
         }else if(data.event==="result"){
-             console.log(data);
+             //console.log(data);
              const game =store.state.pk.gameObject;
              const[snake0,snake1]=game.snakes;
              if(data.loser==="all"||data.loser==="A"){
@@ -89,7 +89,7 @@ export default{
         }
       }
       socket.onclose =()=>{
-        console.log("disconnected!");
+       // console.log("disconnected!");
       }
     });
     onUnmounted(()=>{
@@ -102,6 +102,9 @@ export default{
 
 <style scoped>
 div.user-color{
+  position:absolute;
+  bottom:5vh;
+  width:100%;
   text-align:center;
   color:white;
   font-size:30px;

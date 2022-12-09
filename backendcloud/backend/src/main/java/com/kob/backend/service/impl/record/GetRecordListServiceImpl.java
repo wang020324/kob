@@ -25,7 +25,7 @@ public class GetRecordListServiceImpl implements GetRecordListService {
     private UserMapper userMapper;
     @Override
     public JSONObject getList(Integer page) {
-        IPage<Record> recordIPage =new Page<>(page,20);
+        IPage<Record> recordIPage =new Page<>(page,10);
         //定义Wrapper用来排序
         QueryWrapper<Record> queryWrapper=new QueryWrapper<>();
         //按照时间降序排序

@@ -104,7 +104,7 @@ export class GameMap extends AcGameObject {
 
     //辅助函数捕获输入信息
     add_listening_events() {
-        console.log(this.store.state.record);
+      //  console.log(this.store.state.record);
 
         //判断是要对战还是要播放录像，如果是对战的话，则将对战窗口聚焦并且接收输入
         if (this.store.state.record.is_record) {

@@ -1,6 +1,8 @@
 <template>
     <ContentField>
-      <table class="table table-striped table-hover">
+      <div class="game-table">
+         <div>
+            <table >
                     <thead>
                       <tr style="text-align:center">
                         <th >A</th>
@@ -12,19 +14,19 @@
                     </thead>
                     <tbody>
                       <tr v-for="record in records" :key="record.record.id">
-                        <td>
+                        <td class="game-table-username">
                            <img :src="record.a_photo" alt="" class="record-user-photo">
                            &nbsp;
                            <span class="record-user-username">{{ record.a_username }}</span>
                         </td>
-                        <td>
+                        <td class="game-table-username">
                            <img :src="record.b_photo" alt="" class="record-user-photo">
                            <span class="record-user-username">{{ record.b_username }}</span>
                         </td>
                         <td>{{ record.result }}</td>
                         <td>{{ record.record.createtime}}</td>
                         <td>
-                          <button @click="open_record_content(record.record.id)" type="button" class="btn btn-success"  >查看录像</button>
+                          <button @click="open_record_content(record.record.id)" type="button"   >查看录像</button>
                          
                           
                         </td>
@@ -33,19 +35,22 @@
                     </tbody>
                   </table>
                   <nav aria-label="Page navigation example">
-                    <ul class="pagination" style="float:right;">
-                      <li class="page-item">
-                        <a class="page-link" href="#" @click="click_page(-2)">&laquo;</a>
+                    <ul  style="padding:0;">
+                      <li class="game-page-item">
+                        <a class="game-page-link" href="#" @click="click_page(-2)">&laquo;</a>
                      </li>
-                     <li :class="'page-item ' + page.is_active" v-for="page in pages" :key="page.number" @click="click_page(page.number)">
-                        <a class="page-link" href="#">{{ page.number }}</a>
+                     <li :class="'game-page-item ' + page.is_active" v-for="page in pages" :key="page.number" @click="click_page(page.number)">
+                        <a class="game-page-link" href="#">{{ page.number }}</a>
                      </li>
                   
-                      <li class="page-item">
-                        <a class="page-link" href="#" @click="click_page(-1)">&raquo;</a>
+                      <li class="game-page-item">
+                        <a class="game-page-link" href="#" @click="click_page(-1)">&raquo;</a>
                      </li>
                    </ul>
-</nav>
+             </nav>
+         </div>
+      </div>
+     
     </ContentField>
 </template>
 
@@ -66,34 +71,9 @@ export default{
    let total_records=0;//存储当前的对局数量
    let pages=ref([]);//全局变量数组,在里面存储页面跳转的相关信息
 
-   console.log(total_records);//定义的变量一定要使用否则会报ce
+   //console.log(total_records);//定义的变量一定要使用否则会报ce
 
 
-   /*//update_pages函数用来更新
-   const update_pages=()=>{
-      
-       //计算一共有多少pages
-       let max_pages=parseInt(Math.ceil(total_records/20));
-       let new_pages=[];//数组，里面存有所有的分页栏页码
-       console.log(max_pages);
-       //枚举前后两页，如果有这一页则在分页栏中展示这一页
-       for(let i=current_page-2;i<=current_page+2;i++){
-        
-         console.log(current_page);
-    
-         if(i>=1&&i<=max_pages){
-            new_pages.push({
-               number:i,
-               is_active: i === current_page ? "active" : "",
-         });
-         }
-       }
-       pages.value=new_pages;
-       console.log(new_pages.number);
-       console.log(new_pages.is_active);
-       console.log(pages.value.number);
-       console.log(pages.value.is_active);
-   }*/
 
    //辅助函数用来当点击对应的页码跳转到对应的页面
 
@@ -111,7 +91,7 @@ export default{
    const update_pages = () =>{
       let max_pages=parseInt(Math.ceil(total_records/20));
       let new_pages =[];
-      console.log(max_pages);
+      //console.log(max_pages);
 
       for(let i=current_page -2 ;i<=current_page+2;i++){
         if(i>=1&&i<=max_pages){
@@ -137,14 +117,14 @@ export default{
                 Authorization:"Bearer "+store.state.user.token,
              },
              success(resp){
-                console.log(resp);
+               // console.log(resp);
                 records.value=resp.records;
                 total_records=resp.record_count;
                 //返回完信息之后都需要更新页面以更新页码
                 update_pages();
              },
-             error(resp){
-                console.log(resp);
+             error(){
+                //console.log(resp);
              }
         })
     }
@@ -192,6 +172,8 @@ export default{
             });
             //存储下最终对决的输赢信息
             store.commit("updateRecordLoser",record.record.loser);
+            //实现跳转到录像页面
+            store.commit("updateRouterName","record_content");
             break;//找到想要的record就直接break
          }
       }
@@ -214,9 +196,62 @@ export default{
 
 <style scoped>
 
-img.record-user-photo{
+img.record-user-photo{  
    width:5vh;
    border-radius: 50%;
 }
+div.game-table{
+   display: flex;
+   justify-content: center;
+   align-items:center;
+   width:100%;
+   height:100%;
+}
+.game-table-username{
+   text-align:left;
+   overflow:hidden;
+   text-overflow:ellipsis;
+   white-space: nowrap;
+   max-width:7.5vw;
+}
+div.game-table table{
+   background-color:rgba(255,255,255,0.5);
+   border-radius:5px;
+}
+td{
+   width:7.5vw;
+}
+th{
+   text-align: center ;
+}
+.game-page-item{
+    display:inline-block;
+    padding:8px 12px;
+   background-color:white;
+   border:1px solid #dee2e6;
+   user-select:none;
+}
+.game-page-item:hover{
+   background-color:#E9ECEF;
+   cursor:pointer;
 
+}
+.game-page-item.active{
+   background-color:#0d6efd;
+}
+
+.game-page-item.active >a{
+    color:white;
+}
+
+.game-page-link{
+   color:#0d6efd;
+   text-decoration: none;
+   
+}
+nav{
+   display:flex;
+   justify-content: center;
+   align-items:center;
+}
 </style>

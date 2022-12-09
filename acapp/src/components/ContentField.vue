@@ -43,7 +43,7 @@ export default{
 
     }
     div.go-back:hover{
-        scale:1.2;
+        transform:scale(1,2);
         position:200ms;
     }
 

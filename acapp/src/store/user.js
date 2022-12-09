@@ -93,7 +93,7 @@ export default {
 
                 },
                 error(resp) {
-                    console.log(resp);
+                  //console.log(resp);
                     data.error(resp)
                 }
 
