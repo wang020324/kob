@@ -14,6 +14,11 @@
             <div class="error_message">{{ error_message }}</div>
                 <button type="submit" class="btn btn-primary ">登录</button>
               </form>
+              <div style="text-align:center;margin-top: 20px; cursor:pointer;" @click="acwing_login">
+                <img width="30" src="https://cdn.acwing.com/media/article/image/2022/09/06/1_32f001fd2d-acwing_logo.png">
+                <br> 
+                Acwing一键登录
+              </div>
             </div>
           </div>
     </ContentField>
@@ -22,8 +27,10 @@
 <script>
 import ContentField from "../../../components/ContentField.vue";
 import { useStore } from 'vuex';
-import { ref } from 'vue'
-import router from '../../../router/index'
+import { ref } from 'vue';
+import router from '../../../router/index';
+import $ from 'jquery';
+
 
 export default{
    components:{
@@ -85,12 +92,31 @@ export default{
       })
     }
 
+    //绑定事件获取数据实现acwing免密登录
+     const acwing_login=()=>{
+      $.ajax({
+        url:"https://app2753.acapp.acwing.com.cn/api/user/account/acwing/web/apply_code/",
+        type:"GET",
+        //请求成功后重定向到回调地址
+        success:resp=>{
+          if(resp.result==="success"){
+            window.location.replace(resp.apply_code_url);
+          }
+   
+        }
+      })       
+     }
+    
+
+
+
     return {
       username,
       password,
       error_message,
       login,
       show_content,
+      acwing_login,
     }
    }
 }

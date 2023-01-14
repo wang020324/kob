@@ -77,7 +77,7 @@ public class RegisterServiceImpl implements RegisterService {
         //首先需要先把密码加密
         String encodedPassword = passwordEncoder.encode(password);
         String photo="https://cdn.acwing.com/media/user/profile/photo/109718_lg_84022218b5.webp";
-        User user=new User(null,username,encodedPassword,photo,1500);
+        User user=new User(null,username,encodedPassword,photo,1500,null);
         userMapper.insert(user);//加进数据库中
         //最终告知成功
         map.put("error_message","success");

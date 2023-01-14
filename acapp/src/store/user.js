@@ -4,6 +4,7 @@ import $ from 'jquery'
 export default {
 
     state: {
+        AcWingOS:"AcWingOS",//初始无值，先随意定义字符串
         id: "",
         username: "",
         photo: "",

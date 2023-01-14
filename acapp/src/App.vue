@@ -37,8 +37,7 @@ import RecordIndexViewVue from "./views/record/RecordIndexView.vue";
 import RecordContentViewVue from "./views/record/RecordContentView.vue";
 import RanklistIndexViewVue from "./views/ranklist/RanklistIndexView.vue";
 import UserBotIndexViewVue from "./views/user/bot/UserBotIndexView.vue";
-
-//import $ from 'jquery'
+import $ from 'jquery'
 
 
 export default {
@@ -54,30 +53,42 @@ export default {
  },
  setup(){
   const store=useStore();
-    // const jwt_token=localStorage.getItem("jwt_token");//取出token
-    const jwt_token="eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI1ZDJkOGE1NjU5MzE0ODNiYTgyZTkyOWZjNjQyOTc3MCIsInN1YiI6IjEiLCJpc3MiOiJzZyIsImlhdCI6MTY2OTQyOTI5OCwiZXhwIjoxNjcwNjM4ODk4fQ.StN89RqrfYdwQDkMWc8uRMmCTi7P1Mj8VHeTip4j4-I";
-    //如果token不存在，则返回一个空,存在则存下来
-    if(jwt_token){
-      store.commit("updateToken",jwt_token);//更新进去新的token去内存
-      //验证token是否合法
-      store.dispatch("getinfo",{
-        success(){
-          //成功的话(也就是合法的话)就跳转到首页
+    $.ajax({
+      url:"https://app2753.acapp.acwing.com.cn/api/user/account/acwing/acapp/apply_code/",
+      type:"GET",
+      success:resp=>{
+        //apply获取的token为success,申请授权登录
+        if(resp.result==="success"){
+             store.state.user.AcWingOS.api.oauth2.authorize(resp.appid, resp.redirect_uri, resp.scope, resp.state, resp=>{
+              //回调返回的结果为success，申请授权登录
+                if(resp.result==="success"){
+                  const jwt_token=resp.jwt_token;
+                  store.commit("updateToken",jwt_token);//更新进去新的token去内存
+                  //验证token是否合法
+                  store.dispatch("getinfo",{
+                     success(){
+                      //成功的话(也就是合法的话)就跳转到首页
        
-          store.commit("updatePullingInfo",false);
-        },
-        error(){
-          //show_content.value=true;
-          store.commit("updatePullingInfo",false);
+                     store.commit("updatePullingInfo",false);
+                   },
+                  error(){
+                  //show_content.value=true;
+                  store.commit("updatePullingInfo",false);
+                 }
+              })
+            }else{
+                  //失败关闭窗口
+                  store.state.user.AcWingOS.api.window.close();
+                }
+             });
+
+        }else{
+          //一开始拒绝授权也关闭
+          store.state.user.AcWingOS.api.window.close();
         }
-
-      })
-
-    }else
-    {
-      //show_content.value=true;
-      store.commit("updatePullingInfo",false);
-    }
+      }
+    });
+    // const jwt_token=localStorage.getItem("jwt_token");//取出token
 
    }
 }
